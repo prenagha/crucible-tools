@@ -3,17 +3,79 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 47;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		76F6EA2A1C84D45000940A2B /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F6EA291C84D45000940A2B /* main.swift */; };
+		76F6EA3C1C84D5D000940A2B /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76F6EA391C84D5D000940A2B /* Alamofire.framework */; };
+		76F6EA3D1C84D5D000940A2B /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 76F6EA391C84D5D000940A2B /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		76F6EA3E1C84D5D000940A2B /* SwiftyBeaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76F6EA3A1C84D5D000940A2B /* SwiftyBeaver.framework */; };
+		76F6EA3F1C84D5D000940A2B /* SwiftyBeaver.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 76F6EA3A1C84D5D000940A2B /* SwiftyBeaver.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		76F6EA401C84D5D000940A2B /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76F6EA3B1C84D5D000940A2B /* SwiftyJSON.framework */; };
+		76F6EA411C84D5D000940A2B /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 76F6EA3B1C84D5D000940A2B /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		76F6EA491C84D60B00940A2B /* Alamofire.framework.dSYM in Copy Debug Symbols */ = {isa = PBXBuildFile; fileRef = 76F6EA461C84D60B00940A2B /* Alamofire.framework.dSYM */; };
+		76F6EA4A1C84D60B00940A2B /* SwiftyBeaver.framework.dSYM in Copy Debug Symbols */ = {isa = PBXBuildFile; fileRef = 76F6EA471C84D60B00940A2B /* SwiftyBeaver.framework.dSYM */; };
+		76F6EA4B1C84D60B00940A2B /* SwiftyJSON.framework.dSYM in Copy Debug Symbols */ = {isa = PBXBuildFile; fileRef = 76F6EA481C84D60B00940A2B /* SwiftyJSON.framework.dSYM */; };
+		76F6EA4D1C84D62D00940A2B /* crucible-tools.app in Copy App */ = {isa = PBXBuildFile; fileRef = 76F6EA261C84D45000940A2B /* crucible-tools.app */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		76F6EA421C84D5D000940A2B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				76F6EA3D1C84D5D000940A2B /* Alamofire.framework in Embed Frameworks */,
+				76F6EA3F1C84D5D000940A2B /* SwiftyBeaver.framework in Embed Frameworks */,
+				76F6EA411C84D5D000940A2B /* SwiftyJSON.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76F6EA451C84D5F700940A2B /* Copy Debug Symbols */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				76F6EA491C84D60B00940A2B /* Alamofire.framework.dSYM in Copy Debug Symbols */,
+				76F6EA4A1C84D60B00940A2B /* SwiftyBeaver.framework.dSYM in Copy Debug Symbols */,
+				76F6EA4B1C84D60B00940A2B /* SwiftyJSON.framework.dSYM in Copy Debug Symbols */,
+			);
+			name = "Copy Debug Symbols";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76F6EA4C1C84D61800940A2B /* Copy App */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "${PROJECT_DIR}/bin";
+			dstSubfolderSpec = 0;
+			files = (
+				76F6EA4D1C84D62D00940A2B /* crucible-tools.app in Copy App */,
+			);
+			name = "Copy App";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		76F6EA261C84D45000940A2B /* crucible-tools.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "crucible-tools.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		76F6EA291C84D45000940A2B /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		76F6EA2B1C84D45000940A2B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		76F6EA311C84D5B800940A2B /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
+		76F6EA321C84D5B800940A2B /* Cartfile.resolved */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile.resolved; sourceTree = "<group>"; };
+		76F6EA331C84D5B800940A2B /* config-sample.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "config-sample.plist"; sourceTree = "<group>"; };
+		76F6EA341C84D5B800940A2B /* config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
+		76F6EA351C84D5B800940A2B /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
+		76F6EA361C84D5B800940A2B /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		76F6EA391C84D5D000940A2B /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/Mac/Alamofire.framework; sourceTree = "<group>"; };
+		76F6EA3A1C84D5D000940A2B /* SwiftyBeaver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyBeaver.framework; path = Carthage/Build/Mac/SwiftyBeaver.framework; sourceTree = "<group>"; };
+		76F6EA3B1C84D5D000940A2B /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/Mac/SwiftyJSON.framework; sourceTree = "<group>"; };
+		76F6EA461C84D60B00940A2B /* Alamofire.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Alamofire.framework.dSYM; path = Carthage/Build/Mac/Alamofire.framework.dSYM; sourceTree = "<group>"; };
+		76F6EA471C84D60B00940A2B /* SwiftyBeaver.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SwiftyBeaver.framework.dSYM; path = Carthage/Build/Mac/SwiftyBeaver.framework.dSYM; sourceTree = "<group>"; };
+		76F6EA481C84D60B00940A2B /* SwiftyJSON.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SwiftyJSON.framework.dSYM; path = Carthage/Build/Mac/SwiftyJSON.framework.dSYM; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -21,6 +83,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76F6EA3C1C84D5D000940A2B /* Alamofire.framework in Frameworks */,
+				76F6EA3E1C84D5D000940A2B /* SwiftyBeaver.framework in Frameworks */,
+				76F6EA401C84D5D000940A2B /* SwiftyJSON.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -30,6 +95,18 @@
 		76F6EA1E1C84D45000940A2B = {
 			isa = PBXGroup;
 			children = (
+				76F6EA461C84D60B00940A2B /* Alamofire.framework.dSYM */,
+				76F6EA471C84D60B00940A2B /* SwiftyBeaver.framework.dSYM */,
+				76F6EA481C84D60B00940A2B /* SwiftyJSON.framework.dSYM */,
+				76F6EA391C84D5D000940A2B /* Alamofire.framework */,
+				76F6EA3A1C84D5D000940A2B /* SwiftyBeaver.framework */,
+				76F6EA3B1C84D5D000940A2B /* SwiftyJSON.framework */,
+				76F6EA311C84D5B800940A2B /* Cartfile */,
+				76F6EA321C84D5B800940A2B /* Cartfile.resolved */,
+				76F6EA331C84D5B800940A2B /* config-sample.plist */,
+				76F6EA341C84D5B800940A2B /* config.plist */,
+				76F6EA351C84D5B800940A2B /* LICENSE.md */,
+				76F6EA361C84D5B800940A2B /* README.md */,
 				76F6EA281C84D45000940A2B /* crucible-tools */,
 				76F6EA271C84D45000940A2B /* Products */,
 			);
@@ -61,6 +138,9 @@
 			buildPhases = (
 				76F6EA231C84D45000940A2B /* Sources */,
 				76F6EA241C84D45000940A2B /* Frameworks */,
+				76F6EA421C84D5D000940A2B /* Embed Frameworks */,
+				76F6EA451C84D5F700940A2B /* Copy Debug Symbols */,
+				76F6EA4C1C84D61800940A2B /* Copy App */,
 			);
 			buildRules = (
 			);
@@ -87,7 +167,7 @@
 				};
 			};
 			buildConfigurationList = 76F6EA221C84D45000940A2B /* Build configuration list for PBXProject "crucible-tools" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 6.3";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -197,6 +277,11 @@
 		76F6EA2F1C84D45000940A2B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = "crucible-tools/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.renaghan.crucible-tools";
@@ -207,6 +292,12 @@
 		76F6EA301C84D45000940A2B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
+				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = "crucible-tools/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.renaghan.crucible-tools";

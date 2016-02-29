@@ -1,0 +1,4 @@
+github "SwiftyBeaver/SwiftyBeaver"
+github "amayne/SwiftString"
+github "SwiftyJSON/SwiftyJSON"
+github "Alamofire/Alamofire"
