@@ -18,6 +18,9 @@
 		76F6EA4A1C84D60B00940A2B /* SwiftyBeaver.framework.dSYM in Copy Debug Symbols */ = {isa = PBXBuildFile; fileRef = 76F6EA471C84D60B00940A2B /* SwiftyBeaver.framework.dSYM */; };
 		76F6EA4B1C84D60B00940A2B /* SwiftyJSON.framework.dSYM in Copy Debug Symbols */ = {isa = PBXBuildFile; fileRef = 76F6EA481C84D60B00940A2B /* SwiftyJSON.framework.dSYM */; };
 		76F6EA4D1C84D62D00940A2B /* crucible-tools.app in Copy App */ = {isa = PBXBuildFile; fileRef = 76F6EA261C84D45000940A2B /* crucible-tools.app */; };
+		76F6EA501C84D9A100940A2B /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F6EA4E1C84D9A100940A2B /* Config.swift */; };
+		76F6EA511C84D9A100940A2B /* CountdownLatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F6EA4F1C84D9A100940A2B /* CountdownLatch.swift */; };
+		76F6EA531C84EC0800940A2B /* Crucible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F6EA521C84EC0800940A2B /* Crucible.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -76,6 +79,9 @@
 		76F6EA461C84D60B00940A2B /* Alamofire.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Alamofire.framework.dSYM; path = Carthage/Build/Mac/Alamofire.framework.dSYM; sourceTree = "<group>"; };
 		76F6EA471C84D60B00940A2B /* SwiftyBeaver.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SwiftyBeaver.framework.dSYM; path = Carthage/Build/Mac/SwiftyBeaver.framework.dSYM; sourceTree = "<group>"; };
 		76F6EA481C84D60B00940A2B /* SwiftyJSON.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SwiftyJSON.framework.dSYM; path = Carthage/Build/Mac/SwiftyJSON.framework.dSYM; sourceTree = "<group>"; };
+		76F6EA4E1C84D9A100940A2B /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		76F6EA4F1C84D9A100940A2B /* CountdownLatch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountdownLatch.swift; sourceTree = "<group>"; };
+		76F6EA521C84EC0800940A2B /* Crucible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crucible.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,8 +129,11 @@
 		76F6EA281C84D45000940A2B /* crucible-tools */ = {
 			isa = PBXGroup;
 			children = (
+				76F6EA4E1C84D9A100940A2B /* Config.swift */,
+				76F6EA4F1C84D9A100940A2B /* CountdownLatch.swift */,
 				76F6EA291C84D45000940A2B /* main.swift */,
 				76F6EA2B1C84D45000940A2B /* Info.plist */,
+				76F6EA521C84EC0800940A2B /* Crucible.swift */,
 			);
 			path = "crucible-tools";
 			sourceTree = "<group>";
@@ -188,7 +197,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76F6EA511C84D9A100940A2B /* CountdownLatch.swift in Sources */,
 				76F6EA2A1C84D45000940A2B /* main.swift in Sources */,
+				76F6EA531C84EC0800940A2B /* Crucible.swift in Sources */,
+				76F6EA501C84D9A100940A2B /* Config.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
