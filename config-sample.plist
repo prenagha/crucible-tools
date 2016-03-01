@@ -5,7 +5,7 @@
 	<key>URL</key>
 	<string>http://example.com/rest-service/reviews-v1/</string>
 	<key>Token</key>
-	<string>xxxxxxxxxx:yyyyyyyyyyyyyyy</string>
+	<string>xxxxxxxxxx:yyyyyyyyyyyyyyy:zzzzzzzzz</string>
 	<key>KillOlderThanDays</key>
 	<integer>15</integer>
 </dict>

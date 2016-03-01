@@ -4,7 +4,8 @@ Command line tools for helping to manage Atlassian [Crucible](https://www.atlass
 
 ## Functions
 
-* TODO
+* Find all draft code reviews older than X days, abandon then delete them
+* Find all open code reviews older than X days, close them
 
 ## Technologies
 * XCode

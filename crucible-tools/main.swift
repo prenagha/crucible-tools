@@ -78,7 +78,7 @@ func doDelete(id: String) {
   LOG.info("Deleting \(id)")
   let deleteURL = CONFIG.getURL() + id
   LATCH.add()
-  Alamofire.request(.DELETE, deleteURL, parameters: TOKEN)
+  Alamofire.request(.DELETE, deleteURL, parameters: TOKEN, encoding: ParameterEncoding.URLEncodedInURL)
     .validate()
     .response(
       queue: queue,
@@ -118,7 +118,7 @@ func openResponse(response: Response<AnyObject, NSError>) {
       let tooOld = CRUCIBLE.tooOld(json)
       LOG.info("Found \(tooOld.count) too old open")
       for id in tooOld {
-        //doClose(id)
+        doClose(id)
       }
     }
   case .Failure(let error):
@@ -129,9 +129,11 @@ func openResponse(response: Response<AnyObject, NSError>) {
 
 func doClose(id: String) {
   LOG.info("Closing \(id)")
-  let closeURL = CONFIG.getURL() + id + "/close/"
+  let parms = ["summary": "Old review automatically closed"]
+  let closeURL = CONFIG.getURL() + id + "/close/?FEAUTH=" + CONFIG.getToken()
   LATCH.add()
-  Alamofire.request(.POST, closeURL, parameters: TOKEN)
+  Alamofire.request(.POST, closeURL, parameters: parms, headers: ACCEPT_JSON,
+    encoding: ParameterEncoding.JSON)
     .validate()
     .response(
       queue: queue,
