@@ -16,27 +16,29 @@ struct Crucible {
   let killOlderThanDays: Int
 
   let now = NSDate()
-  let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
+  let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
+  let formatter = NSDateFormatter()
 
   init(url: String, token: String, killOlderThanDays: Int) {
     self.url = url
     self.token = token
     self.killOlderThanDays = killOlderThanDays
+    self.formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
   }
 
   private func tooOld(from: NSDate) -> Bool {
-    let components = calendar!.components([.Day], fromDate: from, toDate: now, options: [])
+    let components = calendar.components([.Day], fromDate: from, toDate: now, options: [])
     return components.day >= killOlderThanDays
   }
 
   func tooOld(json: JSON) -> [String] {
     var old: [String] = []
-    for (_, review) in json["reivewData"] {
+    for (_, review) in json["reviewData"] {
       let id = review["permaId"]["id"].stringValue
       let createdString = review["createDate"].stringValue
-      let created: NSDate
+      let created = formatter.dateFromString(createdString)!
       if tooOld(created) {
-        LOG.verbose("\(id) is too old \(created)")
+        LOG.verbose("\(id) is too old \(createdString)")
         old.append(id)
       }
     }

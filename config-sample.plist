@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>URL</key>
-	<string>http://example.com:8060/rest-service/reviews-v1/</string>
+	<string>http://example.com/rest-service/reviews-v1/</string>
 	<key>Token</key>
 	<string>xxxxxxxxxx:yyyyyyyyyyyyyyy</string>
 	<key>KillOlderThanDays</key>
