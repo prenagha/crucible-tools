@@ -20,7 +20,7 @@ let plistPath = NSHomeDirectory() + "/Dev/crucible-tools/config.plist"
 let CONFIG = Config(path: plistPath)
 let CRUCIBLE = Crucible(url: CONFIG.getURL(), token: CONFIG.getToken(),
   killOlderThanDays: CONFIG.getKillOlderThanDays())
-let HEADERS = ["Accept": "application/json"]
+let ACCEPT_JSON = ["Accept": "application/json"]
 let TOKEN = ["FEAUTH": CONFIG.getToken()]
 
 // keep track of response handler running async
@@ -69,7 +69,7 @@ func abandonResponse(response: Response<String, NSError>, id: String) {
     LOG.info("Abandoned \(id)")
     doDelete(id)
   case .Failure(let error):
-    LOG.error("Error abandoning \(error)")
+    LOG.error("Error abandoning \(id) \(error)")
   }
   LATCH.remove()
 }
@@ -92,7 +92,7 @@ func deleteResponse(response: Response<String, NSError>, id: String) {
   case .Success:
     LOG.info("Deleted \(id)")
   case .Failure(let error):
-    LOG.error("Error deleting \(error)")
+    LOG.error("Error deleting \(id) \(error)")
   }
   LATCH.remove()
 }
@@ -100,13 +100,67 @@ func deleteResponse(response: Response<String, NSError>, id: String) {
 LOG.info("Getting drafts")
 let draftsURL = CONFIG.getURL() + "filter/draftReviews/"
 LATCH.add()
-Alamofire.request(.GET, draftsURL, parameters: TOKEN, headers: HEADERS)
+Alamofire.request(.GET, draftsURL, parameters: TOKEN, headers: ACCEPT_JSON)
   .validate()
   .response(
     queue: queue,
     responseSerializer: Request.JSONResponseSerializer(),
     completionHandler: draftsResponse
 )
+
+func openResponse(response: Response<AnyObject, NSError>) {
+  switch response.result {
+  case .Success:
+    if let value = response.result.value {
+      let json = JSON(value)
+      //LOG.verbose("Open Response JSON: \(json)")
+      LOG.info("Read \(json["reviewData"].count) open")
+      let tooOld = CRUCIBLE.tooOld(json)
+      LOG.info("Found \(tooOld.count) too old open")
+      for id in tooOld {
+        //doClose(id)
+      }
+    }
+  case .Failure(let error):
+    LOG.error("Error read open \(error)")
+  }
+  LATCH.remove()
+}
+
+func doClose(id: String) {
+  LOG.info("Closing \(id)")
+  let closeURL = CONFIG.getURL() + id + "/close/"
+  LATCH.add()
+  Alamofire.request(.POST, closeURL, parameters: TOKEN)
+    .validate()
+    .response(
+      queue: queue,
+      responseSerializer: Request.stringResponseSerializer(),
+      completionHandler: { response in closeResponse(response, id: id) }
+  )
+}
+
+func closeResponse(response: Response<String, NSError>, id: String) {
+  switch response.result {
+  case .Success:
+    LOG.info("Closed \(id)")
+  case .Failure(let error):
+    LOG.error("Error closing \(id) \(error)")
+  }
+  LATCH.remove()
+}
+
+LOG.info("Getting open")
+let openURL = CONFIG.getURL() + "filter/allOpenReviews/"
+LATCH.add()
+Alamofire.request(.GET, openURL, parameters: TOKEN, headers: ACCEPT_JSON)
+  .validate()
+  .response(
+    queue: queue,
+    responseSerializer: Request.JSONResponseSerializer(),
+    completionHandler: openResponse
+)
+
 
 LATCH.wait(300)
 LOG.info("End")
