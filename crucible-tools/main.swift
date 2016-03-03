@@ -13,6 +13,8 @@ let logFile = FileDestination()
 logFile.logFileURL = NSURL(string: "file://" + NSHomeDirectory() + "/Dev/crucible-tools/bin/crucible-tools.log")!
 logFile.colored = false
 LOG.addDestination(logFile)
+console.minLevel = SwiftyBeaver.Level.Debug
+logFile.minLevel = SwiftyBeaver.Level.Debug
 
 LOG.info("Start")
 
@@ -34,7 +36,7 @@ func draftsResponse(response: Response<AnyObject, NSError>) {
   case .Success:
     if let value = response.result.value {
       let json = JSON(value)
-      //LOG.verbose("Drafts Response JSON: \(json)")
+      LOG.verbose("Drafts Response JSON: \(json)")
       LOG.info("Read \(json["reviewData"].count) drafts")
       let tooOld = CRUCIBLE.tooOld(json)
       LOG.info("Found \(tooOld.count) too old drafts")
@@ -113,7 +115,7 @@ func openResponse(response: Response<AnyObject, NSError>) {
   case .Success:
     if let value = response.result.value {
       let json = JSON(value)
-      //LOG.verbose("Open Response JSON: \(json)")
+      LOG.verbose("Open Response JSON: \(json)")
       LOG.info("Read \(json["reviewData"].count) open")
       let tooOld = CRUCIBLE.tooOld(json)
       LOG.info("Found \(tooOld.count) too old open")
