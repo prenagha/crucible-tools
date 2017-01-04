@@ -15,7 +15,7 @@ class Config {
   }
 
   func getURL() -> String {
-    if let v = props.objectForKey("URL") {
+    if let v = props.object(forKey: "URL") {
       return v as! String
     } else {
       LOG.error("URL key not found in plist")
@@ -24,7 +24,7 @@ class Config {
   }
 
   func getToken() -> String {
-    if let v = props.objectForKey("Token") {
+    if let v = props.object(forKey: "Token") {
       return v as! String
     } else {
       LOG.error("Token key not found in plist")
@@ -33,7 +33,7 @@ class Config {
   }
 
   func getKillOlderThanDays() -> Int {
-    if let v = props.objectForKey("KillOlderThanDays") {
+    if let v = props.object(forKey: "KillOlderThanDays") {
       let n = v as! NSNumber
       return Int(n.doubleValue)
     } else {

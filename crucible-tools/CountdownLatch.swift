@@ -7,7 +7,7 @@ import Foundation
 struct CountdownLatch {
 
   /// Use dispatch group primitive
-  let group: dispatch_group_t
+  let group: DispatchGroup
 
   /**
    Create new instance
@@ -15,28 +15,28 @@ struct CountdownLatch {
    - returns: new CountdownLatch
    */
   init() {
-    group = dispatch_group_create()
+    group = DispatchGroup()
   }
 
   /**
   Indicate that an item has started that we need to wait on
   */
   func add() {
-    dispatch_group_enter(group)
+    group.enter()
   }
 
   /**
   Indicate that an item we are waiting on has finished
   */
   func remove() {
-    dispatch_group_leave(group)
+    group.leave()
   }
 
   /**
   Block current thread until all items are complete, may block forever
   */
   func wait() {
-    dispatch_group_wait(group, DISPATCH_TIME_FOREVER)
+    _ = group.wait(timeout: DispatchTime.distantFuture)
   }
 
   /**
@@ -44,10 +44,10 @@ struct CountdownLatch {
 
   - parameter secondTimeout: seconds to wait before timing out
 
-  - returns: true if all items complete, false if timeout occurred
+  - returns: true if all items complete before timeout, false if timeout occurred
   */
-  func wait(secondTimeout: Int) -> Bool {
-    let until = dispatch_time(DISPATCH_TIME_NOW, Int64(secondTimeout) * 1000000000)
-    return dispatch_group_wait(group, until) == 0
+  func wait(_ secondTimeout: Int) -> Bool {
+    let until = DispatchTime.now() + Double(Int64(secondTimeout) * 1000000000) / Double(NSEC_PER_SEC)
+    return DispatchTimeoutResult.success == group.wait(timeout: until)
   }
 }

@@ -15,9 +15,9 @@ struct Crucible {
   let token: String
   let killOlderThanDays: Int
 
-  let now = NSDate()
-  let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
-  let formatter = NSDateFormatter()
+  let now = Date()
+  let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
+  let formatter = DateFormatter()
 
   init(url: String, token: String, killOlderThanDays: Int) {
     self.url = url
@@ -26,17 +26,21 @@ struct Crucible {
     self.formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
   }
 
-  private func tooOld(from: NSDate) -> Bool {
-    let components = calendar.components([.Day], fromDate: from, toDate: now, options: [])
-    return components.day >= killOlderThanDays
+  fileprivate func tooOld(_ from: Date) -> Bool {
+    let components = (calendar as NSCalendar).components([.day], from: from, to: now, options: [])
+    return components.day! >= killOlderThanDays
   }
 
-  func tooOld(json: JSON) -> [String] {
+  func tooOld(_ json: JSON) -> [String] {
     var old: [String] = []
     for (_, review) in json["reviewData"] {
       let id = review["permaId"]["id"].stringValue
+      let state = review["state"].stringValue
+      if state == "Closed" {
+        continue
+      }
       let createdString = review["createDate"].stringValue
-      let created = formatter.dateFromString(createdString)!
+      let created = formatter.date(from: createdString)!
       if tooOld(created) {
         LOG.verbose("\(id) is too old \(createdString)")
         old.append(id)

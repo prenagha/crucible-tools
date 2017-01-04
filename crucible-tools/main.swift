@@ -6,15 +6,15 @@ import SwiftyJSON
 // setup logging
 let LOG = SwiftyBeaver.self
 let console = ConsoleDestination()
-console.dateFormat = "HH:mm:ss.SSS"
-console.colored = false
+//console.dateFormat = "HH:mm:ss.SSS"
+//console.colored = false
 LOG.addDestination(console)
 let logFile = FileDestination()
-logFile.logFileURL = NSURL(string: "file://" + NSHomeDirectory() + "/Dev/crucible-tools/bin/crucible-tools.log")!
-logFile.colored = false
+logFile.logFileURL = URL(string: "file://" + NSHomeDirectory() + "/Dev/crucible-tools/bin/crucible-tools.log")!
+//logFile.colored = false
 LOG.addDestination(logFile)
-console.minLevel = SwiftyBeaver.Level.Debug
-logFile.minLevel = SwiftyBeaver.Level.Debug
+console.minLevel = SwiftyBeaver.Level.debug
+logFile.minLevel = SwiftyBeaver.Level.debug
 
 LOG.info("Start")
 
@@ -22,18 +22,18 @@ let plistPath = NSHomeDirectory() + "/Dev/crucible-tools/config.plist"
 let CONFIG = Config(path: plistPath)
 let CRUCIBLE = Crucible(url: CONFIG.getURL(), token: CONFIG.getToken(),
   killOlderThanDays: CONFIG.getKillOlderThanDays())
-let ACCEPT_JSON = ["Accept": "application/json"]
-let TOKEN = ["FEAUTH": CONFIG.getToken()]
+let ACCEPT_JSON: HTTPHeaders = ["Accept": "application/json"]
+let TOKEN: Parameters = ["FEAUTH": CONFIG.getToken()]
 
 // keep track of response handler running async
 let LATCH = CountdownLatch()
 
 // run response handler async in their own queue
-let queue = dispatch_queue_create("my.crucible-queue", DISPATCH_QUEUE_CONCURRENT)
+let queue = DispatchQueue(label: "my.crucible-queue", attributes: DispatchQueue.Attributes.concurrent)
 
-func draftsResponse(response: Response<AnyObject, NSError>) {
+func draftsResponse(_ response: DataResponse<Any>) {
   switch response.result {
-  case .Success:
+  case .success:
     if let value = response.result.value {
       let json = JSON(value)
       LOG.verbose("Drafts Response JSON: \(json)")
@@ -44,56 +44,56 @@ func draftsResponse(response: Response<AnyObject, NSError>) {
         doAbandon(id)
       }
     }
-  case .Failure(let error):
+  case .failure(let error):
     LOG.error("Error read drafts \(error)")
   }
   LATCH.remove()
 }
 
-func doAbandon(id: String) {
+func doAbandon(_ id: String) {
   LOG.info("Abandoning \(id)")
   let abandonURL = CONFIG.getURL() + id + "/transition"
   var abandonParam = TOKEN
   abandonParam.updateValue("action:abandonReview", forKey: "action")
   LATCH.add()
-  Alamofire.request(.POST, abandonURL, parameters: abandonParam, encoding: ParameterEncoding.URLEncodedInURL)
+  Alamofire.request(abandonURL, method: .post, parameters: abandonParam, encoding: URLEncoding.queryString)
     .validate()
     .response(
       queue: queue,
-      responseSerializer: Request.stringResponseSerializer(),
+      responseSerializer: DataRequest.stringResponseSerializer(),
       completionHandler: { response in abandonResponse(response, id: id) }
   )
 }
 
-func abandonResponse(response: Response<String, NSError>, id: String) {
+func abandonResponse(_ response: DataResponse<String>, id: String) {
   switch response.result {
-  case .Success:
+  case .success:
     LOG.info("Abandoned \(id)")
     doDelete(id)
-  case .Failure(let error):
+  case .failure(let error):
     LOG.error("Error abandoning \(id) \(error)")
   }
   LATCH.remove()
 }
 
-func doDelete(id: String) {
+func doDelete(_ id: String) {
   LOG.info("Deleting \(id)")
   let deleteURL = CONFIG.getURL() + id
   LATCH.add()
-  Alamofire.request(.DELETE, deleteURL, parameters: TOKEN, encoding: ParameterEncoding.URLEncodedInURL)
+  Alamofire.request(deleteURL, method: .delete, parameters: TOKEN, encoding: URLEncoding.queryString)
     .validate()
     .response(
       queue: queue,
-      responseSerializer: Request.stringResponseSerializer(),
+      responseSerializer: DataRequest.stringResponseSerializer(),
       completionHandler: { response in deleteResponse(response, id: id) }
   )
 }
 
-func deleteResponse(response: Response<String, NSError>, id: String) {
+func deleteResponse(_ response: DataResponse<String>, id: String) {
   switch response.result {
-  case .Success:
+  case .success:
     LOG.info("Deleted \(id)")
-  case .Failure(let error):
+  case .failure(let error):
     LOG.error("Error deleting \(id) \(error)")
   }
   LATCH.remove()
@@ -102,17 +102,17 @@ func deleteResponse(response: Response<String, NSError>, id: String) {
 LOG.info("Getting drafts")
 let draftsURL = CONFIG.getURL() + "filter/draftReviews/"
 LATCH.add()
-Alamofire.request(.GET, draftsURL, parameters: TOKEN, headers: ACCEPT_JSON)
+Alamofire.request(draftsURL, parameters: TOKEN, headers: ACCEPT_JSON)
   .validate()
   .response(
     queue: queue,
-    responseSerializer: Request.JSONResponseSerializer(),
+    responseSerializer: DataRequest.jsonResponseSerializer(),
     completionHandler: draftsResponse
 )
 
-func openResponse(response: Response<AnyObject, NSError>) {
+func openResponse(response: DataResponse<Any>) {
   switch response.result {
-  case .Success:
+  case .success:
     if let value = response.result.value {
       let json = JSON(value)
       LOG.verbose("Open Response JSON: \(json)")
@@ -123,32 +123,32 @@ func openResponse(response: Response<AnyObject, NSError>) {
         doClose(id)
       }
     }
-  case .Failure(let error):
+  case .failure(let error):
     LOG.error("Error read open \(error)")
   }
   LATCH.remove()
 }
 
-func doClose(id: String) {
+func doClose(_ id: String) {
   LOG.info("Closing \(id)")
   let parms = ["summary": "Old review automatically closed"]
   let closeURL = CONFIG.getURL() + id + "/close/?FEAUTH=" + CONFIG.getToken()
   LATCH.add()
-  Alamofire.request(.POST, closeURL, parameters: parms, headers: ACCEPT_JSON,
-    encoding: ParameterEncoding.JSON)
+  Alamofire.request(closeURL, method: HTTPMethod.post, parameters: parms, encoding: JSONEncoding.default, headers: ACCEPT_JSON)
     .validate()
     .response(
       queue: queue,
-      responseSerializer: Request.stringResponseSerializer(),
+      responseSerializer: DataRequest.stringResponseSerializer(),
       completionHandler: { response in closeResponse(response, id: id) }
-  )
+    )
 }
 
-func closeResponse(response: Response<String, NSError>, id: String) {
+func closeResponse(_ response: DataResponse<String>, id: String) {
+  //LOG.verbose("Close Response: \(response.result.value)")
   switch response.result {
-  case .Success:
+  case .success:
     LOG.info("Closed \(id)")
-  case .Failure(let error):
+  case .failure(let error):
     LOG.error("Error closing \(id) \(error)")
   }
   LATCH.remove()
@@ -157,15 +157,15 @@ func closeResponse(response: Response<String, NSError>, id: String) {
 LOG.info("Getting open")
 let openURL = CONFIG.getURL() + "filter/allOpenReviews/"
 LATCH.add()
-Alamofire.request(.GET, openURL, parameters: TOKEN, headers: ACCEPT_JSON)
+Alamofire.request(openURL, parameters: TOKEN, headers: ACCEPT_JSON)
   .validate()
   .response(
     queue: queue,
-    responseSerializer: Request.JSONResponseSerializer(),
+    responseSerializer: DataRequest.jsonResponseSerializer(),
     completionHandler: openResponse
 )
 
 
-LATCH.wait(300)
+_ = LATCH.wait(300)
 LOG.info("End")
-LOG.flush(10)
+_ = LOG.flush(secondTimeout: 10)
