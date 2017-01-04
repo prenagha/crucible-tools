@@ -15,3 +15,5 @@ Command line tools for helping to manage Atlassian [Crucible](https://www.atlass
 * [Swifty Beaver](https://github.com/SwiftyBeaver/SwiftyBeaver)
 * [Swift Command Line Project XCode Template](https://github.com/Zewo/Swift-Command-Line-Application-Template)
 * [Swifty JSON](https://github.com/SwiftyJSON/SwiftyJSON)
+* [Swift String](https://github.com/iamjono/SwiftString)
+* [Crucible REST API](https://docs.atlassian.com/fisheye-crucible/latest/wadl/crucible.html)
